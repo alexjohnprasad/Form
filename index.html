@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+<head><meta charset="us-ascii">
+	<title>Wish Box</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&amp;display=swap" rel="stylesheet" />
+	<style type="text/css">html,body{
+		margin:0;
+	}
+	.responsive {
+	  width: 100%;
+	  height: auto;
+	}
+
+	#chatbox{
+		font-family: 'Roboto', sans-serif;
+		position: fixed;
+		bottom: 20px;
+		right: 20px;
+		width: 340px;
+		max-width: 100%;
+		background: rgba(255,255,255,0.95);
+		border-radius: 5px;
+		box-shadow: 0 2px 10px 3px rgba(0,0,0,0.2);
+		padding: 20px;
+	}
+		#chatbox h2.chatbox-title{
+			margin: 0;
+			color: white;
+			text-align: center;
+			background: linear-gradient(90deg, #8D20DE 2.58%, #B11EDE 91.62%);
+			font-size:14px;
+			padding: 7px;
+		}
+		#chatbox h2.chatbox-title .btn.btn-close{
+			float: right;
+			border: none;
+			font-weight: bold;
+			background: rgba(255,255,255,0.7);
+		}
+		#chatbox .form-group{
+			margin: 8px 0;
+			padding-right: 25px;
+		}
+		#chatbox .form-group label{
+			display: block;
+			margin: 2px 0 6px;
+			color: #8D20DE;
+			font-size: 13px;
+			font-weight: 500;
+		}
+		#chatbox .form-group .text-field{
+			width: 100%;
+			display: block;
+			border:1px solid #BBBBBB;
+			padding: 10px	;
+			border-radius: 5px;
+			background: rgba(255,255,255,0.8);
+			outline:none;
+			transition: all 300ms ease-in-out;
+			box-shadow: 0 0 0 #8D20DE44;
+		}
+		#chatbox .form-group .text-field:focus{
+			border:1px solid #8D20DE;
+			box-shadow: 0 0 10px #8D20DE44;
+		}
+		#chatbox .form-group textarea.text-field{
+			height: 80px
+		}
+		#chatbox .btn.btn-submit{
+			display: block;
+			width: 100%;
+			color: white;
+			text-align: center;
+			border: none;
+			outline: none;
+			background: #8D20DECC;
+			font-size:14px;
+			cursor: pointer;
+			padding: 10px 0;
+			margin: 5px 0 0;
+		}
+	
+
+	#chatbox-open{
+		position: fixed;
+		bottom: 20px;
+		right: 20px;
+		background: rgba(255,255,255,0.95);
+		border-radius: 50%;
+		box-shadow: 0 2px 10px 3px rgba(0,0,0,0.2);
+		width: 60px;
+		height: 60px;
+		cursor: pointer;
+		overflow: hidden;
+	}
+	@media only screen and (max-width: 600px) {
+		#chatbox{
+			bottom: 20px;
+			right: 50%;
+			transform: translate(50%,0);
+			width: 80%;
+			max-height: 80%;
+		}
+	}
+	</style>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+<p><img alt="Wish Box" class="responsive" src="https://raw.githubusercontent.com/alexjohnprasad/wishbox/main/image/wish%20box_website.png" /></p>
+
+<div id="chatbox" style="display: none;">
+<h2 class="chatbox-title">Enquire now!<button class="btn btn-close" onclick="closeChatBox();openChatBoxOpenButton()">x</button></h2>
+&nbsp;
+
+<form action="" id="chatbox-form" method="post">
+<div class="form-group"><label>Your Name</label> <input autocomplete="off" class="text-field" name="name" required="required" type="text" /></div>
+
+<div class="form-group"><label>Email</label> <input autocomplete="off" class="text-field" name="email" required="required" type="email" /></div>
+
+<div class="form-group"><label>Company Name</label> <input autocomplete="off" class="text-field" name="company" required="required" type="text" /></div>
+
+<div class="form-group"><label>Phone Number</label> <input autocomplete="off" class="text-field" name="phone" required="required" type="phone" /></div>
+
+<div class="form-group"><label>Message</label><textarea class="text-field" name="message" required="required"></textarea></div>
+<input class="btn btn-submit" type="submit" value="SUBMIT" /></form>
+</div>
+
+<div id="chatbox-open" onclick="closeChatBoxOpenButton();openChatBox();" style="display: none;"><img src="Images/chat.jpg" /></div>
+<script src="jquery.min.js"></script><script>
+		$(document).ready(function (){
+			$("#chatbox-form").submit(function(e){
+				e.preventDefault();
+			    $("form input[type=submit]").attr("disabled","disabled");
+		        $.post("mail.php", $(this).serialize(), function(data){
+		            if(data=="success"){
+		            	closeChatBox();
+		            	openChatBoxOpenButton();
+		            	alert("Message Sent");
+		            }
+		            else{
+		            	alert("Can't send the mail. Please contact administrator")
+		            }
+		        })
+				.always(function() {
+				    $("form input[type=submit]").removeAttr("disabled")
+				});
+			});
+
+			$(window).on("load",function(){
+				setTimeout(openChatBox,500);			
+			});
+		});
+
+
+		function openChatBox(){
+			$("#chatbox").show("slow");
+		}
+		function closeChatBox(){
+			$("#chatbox").hide("fast");
+		}
+		function openChatBoxOpenButton(){
+			$("#chatbox-open").show("slow");
+		}
+		function closeChatBoxOpenButton(){
+			$("#chatbox-open").hide("fast");
+		}
+
+	</script>
+    </body>
+</html>
